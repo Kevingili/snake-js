@@ -2,8 +2,9 @@ window.onload=function() {
     canv=document.getElementById("gc");
     ctx=canv.getContext("2d");
     document.addEventListener("keydown",keyPush);
-    setInterval(game,1000/15);
-}
+    //var interval = setInterval(game,1000/10);
+};
+
 px=py=10;
 gs=tc=20;
 ax=ay=15;
@@ -11,7 +12,13 @@ xv=yv=0;
 trail=[];
 tail = 5;
 score = 0;
-function game() {
+
+var counter = 500;
+
+var game = function(){
+    console.log(counter);
+    clearInterval(interval);
+    interval = setInterval(game, counter);
     px+=xv;
     py+=yv;
     if(px<0) {
@@ -45,6 +52,7 @@ function game() {
         tail++;
 
         score++;
+        counter -=100/score;
         var score_span = document.getElementById('score');
         score_span.innerHTML = score;
 
@@ -53,7 +61,7 @@ function game() {
     }
     ctx.fillStyle="red";
     ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
-}
+};
 function keyPush(evt) {
     switch(evt.keyCode) {
         case 37:
@@ -70,3 +78,5 @@ function keyPush(evt) {
             break;
     }
 }
+
+var interval = setInterval(game,counter);
