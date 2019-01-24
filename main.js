@@ -1,4 +1,7 @@
 window.onload=function() {
+
+    show_score();
+
     canv=document.getElementById("gc");
     ctx=canv.getContext("2d");
     document.addEventListener("keydown",keyPush);
@@ -16,7 +19,6 @@ score = 0;
 var counter = 500;
 
 var game = function(){
-    console.log(counter);
     clearInterval(interval);
     interval = setInterval(game, counter);
     px+=xv;
@@ -40,6 +42,16 @@ var game = function(){
     for(var i=0;i<trail.length;i++) {
         ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
         if(trail[i].x==px && trail[i].y==py) {
+
+            if(tail > 5 ){
+                add_score(score);
+                console.log("dead");
+                score = 0;
+                counter = 500;
+                var score_span = document.getElementById('score');
+                score_span.innerHTML = score;
+
+            }
             tail = 5;
         }
     }
@@ -77,6 +89,49 @@ function keyPush(evt) {
             xv=0;yv=1;
             break;
     }
+}
+
+function add_score (score) {
+
+    var login = prompt("Quel est votre pseudo ?");
+
+    if (localStorage.getItem('scores') === null) {
+        var scores = [];
+        scores[0] = {'login': login , 'score' : score};
+        localStorage.setItem("scores", JSON.stringify(scores));
+    }
+
+    else {
+        scores = JSON.parse(localStorage.getItem("scores"));
+        scores[scores.length] = {'login': login , 'score' : score}
+        localStorage.setItem("scores", JSON.stringify(scores));
+    }
+
+    show_score();
+};
+
+function show_score() {
+
+    document.getElementById('scores').innerHTML="";
+
+    if (localStorage.getItem('scores') !== null) {
+
+        var sorted_score = JSON.parse(localStorage.getItem("scores")).sort((a, b) => (a.score > b.score) ? -1 : 1);
+
+        if (localStorage.getItem('scores') !== null) {
+            sorted_score.forEach(function(score) {
+
+                var p = document.createElement('p');
+                p.innerHTML = score.login + ' : ' + score.score;
+
+                document.getElementById('scores').appendChild(p);
+
+            });
+
+        }
+    }
+
+
 }
 
 var interval = setInterval(game,counter);
