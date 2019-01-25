@@ -52,9 +52,11 @@ window.onload = function () {
             py = 0;
         }
 
+        //Gestion du canvas
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canv.width, canv.height);
         ctx.fillStyle = "lime";
+
 
         for (var i = 0; i < trail.length; i++) {
             ctx.fillRect(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
@@ -75,10 +77,13 @@ window.onload = function () {
 
         trail.push({ x: px, y: py });
 
+        //Retire l'emplacement de l'ancienne pomme du tableau
         while (trail.length > tail) {
             trail.shift();
         }
 
+
+        //Quand on mange du pomme
         if (ax == px && ay == py) {
             tail++;
 
@@ -87,6 +92,7 @@ window.onload = function () {
             var score_span = document.querySelector('#score');
             score_span.innerHTML = score;
 
+            //On positionne une pomme aléaroirement sur le terrain
             ax = Math.floor(Math.random() * tc);
             ay = Math.floor(Math.random() * tc);
         }
@@ -95,6 +101,7 @@ window.onload = function () {
         ctx.fillRect(ax * gs, ay * gs, gs - 2, gs - 2);
     }
 
+    //Déplacement
     function keyPush(evt) {
         switch (evt.keyCode) {
             case 37:
@@ -121,6 +128,7 @@ window.onload = function () {
         element.appendChild(template);
     }
 
+    //Ajout du score
     function _addScore(score) {
 
         var login = prompt("Quel est votre pseudo ?");
@@ -137,7 +145,7 @@ window.onload = function () {
 
         show_score();
     }
-
+    //Voir l'historique des scores
     function show_score() {
         document.querySelector('#scores').innerHTML = "";
 
