@@ -15,11 +15,7 @@ window.onload = function () {
     trail = [];
     tail = 5;
     score = 0;
-    var counter = 500;
-    var sec = 0;
-    var t;
-    var oneHour = 60 * 60 * 1000;
-    var maxChrono = oneHour * 8;
+    var counter = 300;
 
     var game = function () {
         clearInterval(interval);
@@ -109,76 +105,6 @@ window.onload = function () {
 
         element.appendChild(template);
     }
-
-    function addChrono(timer, timerHidden) {
-        var total = _countChrono(button);
-
-        var currentTimer = Number(timerHidden.value);
-        var totalTimeLeft = maxChrono - total;
-        var timeLeft = totalTimeLeft + currentTimer;
-        var maxValue =  _convertMillisecondToHour(timeLeft);
-
-        if (total < maxChrono) {
-            // Increment every second;
-            timerHidden.value = parseInt(timerHidden.value) + 1000;
-            timer.value = _convertMillisecondToHour(timerHidden.value);
-            timer.max = maxValue;
-
-        } else {
-            var diff = total - maxChrono;
-            if (diff >= 0) timerHidden.value -= diff;
-            timer.value = _convertMillisecondToHour(timerHidden.value);
-            timer.max = timeDefault;
-            _limit(button);
-        }
-    }
-
-    function _timer(timer, timerHidden) {
-        t = setInterval(addChrono, 1000, timer, timerHidden);
-    }
-
-    function _countChrono(button) {
-        // span
-        var duration = document.querySelector("#" + dayId + " #duration");
-        var durationLeft = document.querySelector("#" + dayId + " #durationLeft");
-
-        var chrono = [];
-
-        timerInputHidden.forEach(function(timer) {
-            chrono.push(Number(timer.value));
-        });
-
-        var total = chrono.reduce(function(memo, val) {
-            return memo + val;
-        });
-
-        var timeLeft = maxChrono - total;
-
-        duration.innerHTML = "Total de temps passé : <strong>" + _convertMillisecondToHour(total) + "</strong>";
-        durationLeft.innerHTML = "Total restant : <strong>" + _convertMillisecondToHour(timeLeft) + "</strong>";
-
-        return total;
-    }
-
-    function _convertMillisecondToHour(duration) {
-        // conversion time from millisecond to hour and minute
-        var min = parseInt((duration / (1000 * 60)) % 60);
-        var h = parseInt((duration / (1000 * 60 * 60)) % 24);
-
-        var hours = (h < 10) ? "0" + h : h;
-        var minutes = (min < 10) ? "0" + min : min;
-
-        return hours + ":" + minutes;
-    }
-
-    function _convertHourToMillisecond(duration) {
-        // conversion time from hour and minute to millisecond
-        var hour = Number(duration.split(":")[0]) * oneHour;        
-        var min = Number(duration.split(":")[1]) * 60 * 1000;
-
-        return hour + min;
-    }
-
 
     function _addScore(score) {
 
