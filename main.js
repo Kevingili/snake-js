@@ -7,14 +7,29 @@ window.onload = function () {
     document.addEventListener("keydown", keyPush);
     //var interval = setInterval(game,1000/10);
 };
-
+    
+    //player position
     px = py = 10;
+
+    //grid size
     gs = tc = 20;
+
+    //apple (le truc à manger)
     ax = ay = 15;
+
+    //velocity
     xv = yv = 0;
+
+    //dernière position de la pomme
     trail = [];
+
+    //taille du serpent
     tail = 5;
+
+    //score (logique)
     score = 0;
+
+    //vitesse qui augmente progressivement
     var counter = 300;
 
     var game = function () {
